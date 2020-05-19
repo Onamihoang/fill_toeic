@@ -1,5 +1,5 @@
-import torch
-from pytorch_pretrained_bert import BertTokenizer, BertModel, BertForMaskedLM
+import tensorflow as tf
+from transformers import BertTokenizer, TFBertForMaskedLM, BertModel
 
 
 class FillBert():
@@ -8,7 +8,7 @@ class FillBert():
         self.device = torch.device("cuda" if self.use_cuda else "cpu")
         self.bertmodel = 'bert-large-uncased'
         self.tokenizer = BertTokenizer.from_pretrained(self.bertmodel)
-        self.model = BertForMaskedLM.from_pretrained(self.bertmodel).to(self.device)
+        self.model = TFBertForMaskedLM.from_pretrained(self.bertmodel).to(self.device)
         self.model.eval()
     def get_score(self,question_tensors, segment_tensors, masked_index, candidate):
         candidate_tokens = self.tokenizer.tokenize(candidate)  # warranty -> ['warrant', '##y']
